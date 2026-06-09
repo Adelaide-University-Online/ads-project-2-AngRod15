@@ -1,3 +1,7 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
 /**
 * File: filename.java
 * Description: A brief description of this Java module.
@@ -11,10 +15,33 @@
 public class Runner {
     
     public static void main(String[] args) {
-        System.out.println("Welcome to ADS Assignment Starter!");
-        System.out.println("This is a basic Java project template.");
-        System.out.println("You can modify this file to implement your assignment requirements.");
+        Graph  graph = new Graph();
+
+        // try reading the file
+        try {
+            File file = new File("XBDA.txt");
+            Scanner scanner = new Scanner(file);
+
+            // Read the first line of the file - this should be all the courses.
+            String firstLine = scanner.nextLine();
+
+            // Split the line by commas to get the individual courses.
+            String[] courses = firstLine.split(",");
+
+            // Add each course as a vertex in the graph
+            for (String course : courses) {
+                graph.addVertex(course.trim());
+            }
+
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found.");
+        }
+
+        // Check that the vertices have been created in the graph
+        System.out.println(graph.getVertices().toString());
         
     }
+
+
     
 }
