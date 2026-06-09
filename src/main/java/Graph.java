@@ -10,6 +10,7 @@
  **/
 
 // Import all the java utilities
+import java.security.MessageDigest;
 import java.util.*;
 
 /**
@@ -54,6 +55,84 @@ public class Graph {
 
     // Research Kahn's algorithm - recursive.
 
+    // Method for the topological sort.
+    public List<String> topoSort() {
 
+        // Use HashMap to store the in-degrees, these change as the graph is being
+        // traversed, using hashmap is 0(1) making it efficient for changing the
+        // indegrees values as the vertices are processed.
+        Map<String, Integer> indegree = new HashMap<>();
 
+        // All courses start with an in-degree of 0, then we will calculate the actual indegrees.
+        for (String course : vertices.keySet()) {
+            indegree.put(course, 0);
+        }
+
+        // Calculate the in-degree (incoming edges) for each vertex by iterating through the edges.
+        // The in-degree represents how many prerequisites a course has.
+
+        // For each course
+        for (String course : edges.keySet()) {
+            // Get the adjacency list that contains edges
+            List<Edge> edgeList = edges.get(course);
+
+            // For each edge in the list, get the "to" vertex and increment its indegree by 1.
+            for (Edge edge : edgeList) {
+                String to = edge.getTo();
+
+                // Increment the indegree list by one for each prerequisite.
+                indegree.put(to, indegree.get(to) + 1);
+            }
+        }
+
+        // Use a queue to store the courses with no prerequisites
+        // this will get filled as the traversal progresses
+        // A linkedList is used here as it provides queue like behaviour (FIFO)
+        Queue<String> queue = new LinkedList<>();
+
+        // Add courses with no prerequisites to the queue (in-degree of 0)
+
+        // for each course in the indegree list, if value is 0, add to the queue.
+        for (String course : indegree.keySet()) {
+            if (indegree.get(course) == 0) {
+                queue.add(course);
+            }
+        }
+
+        // Initialise an ArrayList to store the final result or the search.
+        List<String> result = new ArrayList<>();
+
+        // Kahn's Algorithm Topological Sort.
+
+        // while the queue is not empty
+        while (!queue.isEmpty()) {
+
+            // set the current vertex to the first in the queue and add it to the result list.
+            String current = queue.remove();
+            result.add(current);
+
+            // visit all courses that depend on the current course.
+            for  (Edge edge : edges.get(current)) {
+                String to = edge.getTo();
+
+                // reduce the indegree of the dependent course by 1, as we have now processed one of its prerequisites.
+                indegree.put(to, indegree.get(to) - 1);
+
+                // if the indegree is now 0, that dependent course can be added to the queue.
+                if (indegree.get(to) == 0) {
+                    queue.add(to);
+                }
+            }
+        }
+
+        // ensure all verticies have been processed, for a topological sort, there must not
+        // be any cycles. The graph must be a Directed Acyclic Graph (DAG).
+        // check if the size of the result list is the same size as the vertices.
+        if (result.size() != vertices.size()) {
+            throw new RuntimeException("Graph has a cycle, topological sort not possible.");
+        }
+
+    // return the result of the sort.
+    return result;
+    }
 }
