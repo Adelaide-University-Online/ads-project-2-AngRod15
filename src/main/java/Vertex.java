@@ -1,13 +1,15 @@
 /**
- * File: filename.java
- * Description: A brief description of this Java module.
- * Author: Steve Jobs
- * Student ID: 12345678
- * Email ID: jobst007
- * AI Tool Used: Y/N (This includes all AI Tools e.g. ChatGPT, Microsoft or Github Copiliot etc... Please leave blank if you do not wish to share this information)
+ * File: Vertex.java
+ * Description: A class to represent a vertex in a graph.
+ * Author: Angie Rodley
+ * Student ID: a3145754
+ * Email ID: angie.rodley@student.adelaide.edu.au
+ * AI Tool Used: Co-pilot in-line suggestions was turned on and Chat-GPT to help with Syntax of Kahn's Algorithm
  * This is my own work as defined by
  *    the University's Academic Integrity Policy.
  **/
+
+import java.util.Objects;
 
 /**
  * This class represents a Vertex in a graph.
@@ -33,6 +35,31 @@ public class Vertex {
     // Override of toString to display a string representation of the vertex - the course code.
     @Override
     public String toString() {
-        return "Vertex{" + "Course Code = " + courseCode + '}';
+        return "Vertex(" + "Course Code = " + courseCode + ')';
+    }
+
+    // Override HashCode
+    @Override
+    public int hashCode() {
+        return Objects.hash(courseCode);
+    }
+
+    // Override equals
+    @Override
+    public boolean equals(Object obj) {
+
+        // Return True if the same object
+        if (this == obj) {
+            return true;
+        }
+
+        // Return false if not the same object
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        // Compare courseCodes to determine if equal
+        Vertex vertex = (Vertex) obj;
+        return Objects.equals(courseCode, vertex.courseCode);
     }
 }
