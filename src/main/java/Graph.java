@@ -1,16 +1,15 @@
 /**
- * File: filename.java
- * Description: A brief description of this Java module.
- * Author: Steve Jobs
- * Student ID: 12345678
- * Email ID: jobst007
- * AI Tool Used: Y/N (This includes all AI Tools e.g. ChatGPT, Microsoft or Github Copiliot etc... Please leave blank if you do not wish to share this information)
+ * File: Graph.java
+ * Description: A class to represent a graph.
+ * Author: Angie Rodley
+ * Student ID: a3145754
+ * Email ID: angie.rodley@student.adelaide.edu.au
+ * AI Tool Used: Co-pilot in-line suggestions was turned on and Chat-GPT to help with Syntax of Kahn's Algorithm
  * This is my own work as defined by
  *    the University's Academic Integrity Policy.
  **/
 
 // Import all the java utilities
-import java.security.MessageDigest;
 import java.util.*;
 
 /**
@@ -22,32 +21,31 @@ public class Graph {
     private Map<String, Vertex> vertices;
     private Map<String, List<Edge>> edges;
 
-    // constructor
+    /**
+     * Instantiate a new graph with empty HashMaps for vertices and edges.
+     *
+     * **/
     public Graph() {
-        vertices = new HashMap<>();
-        edges = new HashMap<>();
+        this.vertices = new HashMap<>();
+        this.edges = new HashMap<>();
     }
 
     public void addVertex(String courseCode) {
-        vertices.put(courseCode, new Vertex(courseCode));
-        edges.put(courseCode, new ArrayList<>());
+        this.vertices.put(courseCode, new Vertex(courseCode));
+        this.edges.put(courseCode, new ArrayList<>());
     }
 
     public void addEdge(String from, String to) {
-        edges.get(from).add(new Edge(from, to));
+        this.edges.get(from).add(new Edge(from, to));
 
     }
 
-    // A function to print all the "from" for a vertex
-
-    // A function to get the total number of verticies getNumV
-
     public Map<String, Vertex> getVertices() {
-        return vertices;
+        return this.vertices;
     }
 
     public Map<String, List<Edge>> getEdges() {
-        return edges;
+        return this.edges;
     }
 
     // Create a topological search (as per the textbook) to find the best path for visiting all the vertices.
@@ -154,5 +152,35 @@ public class Graph {
 
     // return the result of the sort.
     return result;
+    }
+
+    // Override toString
+    public String toString() {
+        return "Graph\n" +
+                "Vertices: " + vertices + " \n" +
+                "Edges=" + edges;
+    }
+
+    // Override hashCode
+    @Override
+    public int hashCode() {
+        return Objects.hash(vertices, edges);
+    }
+
+    /**
+     * Method to override equals. Two graphs are the same if they have the same vertices and edges.
+     * **/
+    @Override
+    public boolean equals(Object graph) {
+        if (this == graph) {
+            return true;
+        }
+        if (graph == null || getClass() != graph.getClass()) {
+            return false;
+        }
+        Graph graph2 = (Graph) graph;
+
+        // Compare the HashMaps for vertices and edges to see if they are the same.
+        return Objects.equals(vertices, graph2.vertices) && Objects.equals(edges, graph2.edges);
     }
 }
