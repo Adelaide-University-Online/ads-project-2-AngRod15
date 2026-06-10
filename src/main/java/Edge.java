@@ -1,10 +1,12 @@
+import java.util.Objects;
+
 /**
- * File: filename.java
- * Description: A brief description of this Java module.
- * Author: Steve Jobs
- * Student ID: 12345678
- * Email ID: jobst007
- * AI Tool Used: Y/N (This includes all AI Tools e.g. ChatGPT, Microsoft or Github Copiliot etc... Please leave blank if you do not wish to share this information)
+ * File: Edge.java
+ * Description: A class to represent an edge in a graph.
+ * Author: Angie Rodley
+ * Student ID: a3145754
+ * Email ID: angie.rodley@student.adelaide.edu.au
+ * AI Tool Used: Co-pilot in-line suggestions was turned on and Chat-GPT to help with Syntax of Kahn's Algorithm
  * This is my own work as defined by
  *    the University's Academic Integrity Policy.
  **/
@@ -39,6 +41,28 @@ public class Edge {
     // Override the toString method to provide a string representation ot the edge
     @Override
     public String toString() {
-        return "Edge{" + "from='" + from + '\'' + ", to='" + to + '\'' + ", weight=" + weight + '}';
+        return "Edge(" + from + " -> " + to + ", weight = " + weight + ')';
+    }
+
+    // override the equals
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Edge edge = (Edge) obj;
+
+        return Objects.equals(from, edge.from) && Objects.equals(to, edge.to);
+    }
+
+    // Override the hashCode
+    @Override
+    public int hashCode() {
+        return Objects.hash(from, to);
     }
 }
+
