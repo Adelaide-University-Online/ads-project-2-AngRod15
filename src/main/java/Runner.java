@@ -69,18 +69,34 @@ public class Runner {
         }
 
         // Check that the vertices have been created in the graph
-        System.out.println(graph.getVertices().toString());
+        //System.out.println(graph.getVertices().toString());
 
         // Check that the edges have been created
-        System.out.println(graph.getEdges().toString());
+        //System.out.println(graph.getEdges().toString());
+
+        System.out.println("How many courses do you want to study concurrently? ");
+        int numCourses = input.nextInt();
 
         // Perform the topological sort to find the best path for visiting all the vertices.
-        List<String> sortedGraph = graph.topoSort();
+        List<List<String>> sortedGraph = graph.topoSort(numCourses);
 
-        System.out.println("Topologically sorted graph: ");
 
-        for (String course : sortedGraph) {
-            System.out.println(course);
+        // Print out the schedule by term
+        System.out.println("Your course schedule is:");
+
+        // Counter to keep track of terms
+        int term = 1;
+
+        // Loop through the sorted graph and print out the courses for each term.
+        for (List<String> t : sortedGraph) {
+            System.out.println("\nTerm " + term + ":");
+
+            for (String course : t) {
+                System.out.println("  " + course);
+            }
+
+            // Increment the term counter
+            term++;
         }
 
 
