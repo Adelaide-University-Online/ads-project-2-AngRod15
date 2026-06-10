@@ -35,6 +35,7 @@ public class Graph {
 
     public void addEdge(String from, String to) {
         edges.get(from).add(new Edge(from, to));
+
     }
 
     // A function to print all the "from" for a vertex
@@ -56,7 +57,7 @@ public class Graph {
     // Research Kahn's algorithm - recursive.
 
     // Method for the topological sort.
-    public List<String> topoSort() {
+    public List<List<String>> topoSort(int numCourses) {
 
         // Use HashMap to store the in-degrees, these change as the graph is being
         // traversed, using hashmap is 0(1) making it efficient for changing the
@@ -100,35 +101,54 @@ public class Graph {
         }
 
         // Initialise an ArrayList to store the final result or the search.
-        List<String> result = new ArrayList<>();
+        List<List<String>> result = new ArrayList<>();
+
+        // Counter to keep track of how many courses have been processed
+        int courseCounter = 0;
+
+
 
         // Kahn's Algorithm Topological Sort.
-
         // while the queue is not empty
         while (!queue.isEmpty()) {
 
-            // set the current vertex to the first in the queue and add it to the result list.
-            String current = queue.remove();
-            result.add(current);
+            // accommodate for the number of subjects per term
+            List<String> currentTerm =  new ArrayList<>();
 
-            // visit all courses that depend on the current course.
-            for  (Edge edge : edges.get(current)) {
-                String to = edge.getTo();
+            // Store the number of courses that can be added for the term
+            // this will be smaller of the number set by user or the size of courses ready in the queue
+            int termSize = Math.min(numCourses, queue.size());
 
-                // reduce the indegree of the dependent course by 1, as we have now processed one of its prerequisites.
-                indegree.put(to, indegree.get(to) - 1);
+            for (int i = 0; i < termSize; i++) {
+                // set the current vertex to the first in the queue and add it to the result list.
+                String current = queue.remove();
+                currentTerm.add(current);
 
-                // if the indegree is now 0, that dependent course can be added to the queue.
-                if (indegree.get(to) == 0) {
-                    queue.add(to);
+                // add to the courseCounter
+                courseCounter++;
+
+                // visit all courses that depend on the current course.
+                for  (Edge edge : edges.get(current)) {
+                    String to = edge.getTo();
+
+                    // reduce the indegree of the dependent course by 1, as we have now processed one of its prerequisites.
+                    indegree.put(to, indegree.get(to) - 1);
+
+                    // if the indegree is now 0, that dependent course can be added to the queue.
+                    if (indegree.get(to) == 0) {
+                        queue.add(to);
+                    }
                 }
             }
+
+            // Add processed course to the current term
+            result.add(currentTerm);
         }
 
         // ensure all verticies have been processed, for a topological sort, there must not
         // be any cycles. The graph must be a Directed Acyclic Graph (DAG).
         // check if the size of the result list is the same size as the vertices.
-        if (result.size() != vertices.size()) {
+        if (courseCounter != vertices.size()) {
             throw new RuntimeException("Graph has a cycle, topological sort not possible.");
         }
 
