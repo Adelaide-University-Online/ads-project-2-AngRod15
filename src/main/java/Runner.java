@@ -1,18 +1,19 @@
+/**
+ * File: Vertex.java
+ * Description: A class to represent a vertex in a graph.
+ * Author: Angie Rodley
+ * Student ID: a3145754
+ * Email ID: angie.rodley@student.adelaide.edu.au
+ * AI Tool Used: Co-pilot in-line suggestions was turned on and Chat-GPT to help with Syntax of Kahn's Algorithm
+ * This is my own work as defined by
+ *    the University's Academic Integrity Policy.
+ **/
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
-/**
-* File: filename.java
-* Description: A brief description of this Java module.
-* Author: Steve Jobs
-* Student ID: 12345678
-* Email ID: jobst007
-* AI Tool Used: Y/N (This includes all AI Tools e.g. ChatGPT, Microsoft or Github Copiliot etc... Please leave blank if you do not wish to share this information)
-* This is my own work as defined by
-*    the University's Academic Integrity Policy.
-**/
 public class Runner {
     
     public static void main(String[] args) {
@@ -24,7 +25,7 @@ public class Runner {
         // try reading the file
         try {
             //File file = new File("XBDA.txt");
-            System.out.println("Please enter file name: ");
+            System.out.println("Please enter file name (e.g. XBDA.txt): ");
             String fileName = input.nextLine();
 
             File file = new File(fileName);
@@ -83,11 +84,12 @@ public class Runner {
 
         // Print out the schedule by term
         System.out.println("Your course schedule is:");
+        System.out.println("-----------------------------");
 
         // Counter to keep track of terms
         int term = 1;
 
-        // Loop through the sorted graph and print out the courses for each term.
+        // Loop through the sort and print out the courses for each term.
         for (List<String> t : sortedGraph) {
             System.out.println("\nTerm " + term + ":");
 
@@ -98,9 +100,5 @@ public class Runner {
             // Increment the term counter
             term++;
         }
-
-
-
-        
     }
 }

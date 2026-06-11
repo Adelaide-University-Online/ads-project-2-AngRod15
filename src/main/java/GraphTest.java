@@ -1,11 +1,24 @@
+/**
+ * File: GraphTest.java
+ * Description: A unit test for the Graph class.
+ * Author: Angie Rodley
+ * Student ID: a3145754
+ * Email ID: angie.rodley@student.adelaide.edu.au
+ * AI Tool Used: Co-pilot in-line suggestions was turned on and Chat-GPT to help with Syntax of Kahn's Algorithm
+ * This is my own work as defined by
+ *    the University's Academic Integrity Policy.
+ **/
+
 import org.junit.Before;
 import org.junit.Test;
-
 import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+
+/**
+ * A class to test the methods in the Graph class
+ * **/
 public class GraphTest {
 
     // Create a graph to use in the tests.
@@ -16,6 +29,7 @@ public class GraphTest {
         graph = new Graph();
     }
 
+    // Test adding a vertex
     @Test
     public void addVertex() {
         graph.addVertex("INFT1024");
@@ -25,6 +39,7 @@ public class GraphTest {
 
     }
 
+    // Test adding edges
     @Test
     public void addEdge() {
         // Add two vertices and an edge
@@ -41,6 +56,7 @@ public class GraphTest {
         assertEquals("INFT1024", edgeList.get(0).getFrom());
     }
 
+    // Test the topological search
     @Test
     public void topoSort() {
 
@@ -62,11 +78,9 @@ public class GraphTest {
         assertEquals("COMP1043", result.get(0).get(0));
         assertEquals("COMP1048", result.get(1).get(0));
         assertEquals("INFT1024", result.get(2).get(0));
-
-
-
     }
 
+    // Test that the search throws and error if there is a cycle
     @Test(expected = RuntimeException.class)
     public void topoSortCycleException() {
         graph.addVertex("COMP1043");

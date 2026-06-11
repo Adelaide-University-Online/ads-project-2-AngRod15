@@ -14,6 +14,8 @@ import java.util.*;
 
 /**
  * This is a class to represent a graph, the graph contains hashmaps of vertices and edges.
+ * The graph created will be directional with a weight of 1 applied to all edges - resulting in an
+ * unweighted graph.
  * **/
 public class Graph {
 
@@ -23,27 +25,36 @@ public class Graph {
 
     /**
      * Instantiate a new graph with empty HashMaps for vertices and edges.
-     *
      * **/
     public Graph() {
         this.vertices = new HashMap<>();
         this.edges = new HashMap<>();
     }
 
+    /**
+     * Adds a vertex to the graph.
+     * @param courseCode The code of the course to be added.
+     * **/
     public void addVertex(String courseCode) {
         this.vertices.put(courseCode, new Vertex(courseCode));
         this.edges.put(courseCode, new ArrayList<>());
     }
-
+    /**
+     * Adds an edge to the graph.
+     * @param from The course that is the prerequisite.
+     * @param to The course that depends on the prerequisite.
+     * **/
     public void addEdge(String from, String to) {
         this.edges.get(from).add(new Edge(from, to));
 
     }
 
+    // Getter for vertices
     public Map<String, Vertex> getVertices() {
         return this.vertices;
     }
 
+    // Getter for edges
     public Map<String, List<Edge>> getEdges() {
         return this.edges;
     }
@@ -55,6 +66,12 @@ public class Graph {
     // Research Kahn's algorithm - recursive.
 
     // Method for the topological sort.
+    /**
+     * Method to sort the graph
+     * This is a Topological sort using Kahn's Algorithm
+     * @param numCourses The number of courses the student wants to take concurrently,
+     *                   this will determine how many courses can be added to the schedule for each term.
+     * **/
     public List<List<String>> topoSort(int numCourses) {
 
         // Use HashMap to store the in-degrees, these change as the graph is being
@@ -75,7 +92,7 @@ public class Graph {
             // Get the adjacency list that contains edges
             List<Edge> edgeList = edges.get(course);
 
-            // For each edge in the list, get the "to" vertex and increment its indegree by 1.
+            // For each edge in the list, get the "to" vertex and increment its in-degree by 1.
             for (Edge edge : edgeList) {
                 String to = edge.getTo();
 
@@ -107,32 +124,32 @@ public class Graph {
 
 
         // Kahn's Algorithm Topological Sort.
-        // while the queue is not empty
+        // While the queue is not empty
         while (!queue.isEmpty()) {
 
-            // accommodate for the number of subjects per term
+            // Accommodate for the number of subjects per term
             List<String> currentTerm =  new ArrayList<>();
 
             // Store the number of courses that can be added for the term
-            // this will be smaller of the number set by user or the size of courses ready in the queue
+            // This will be smaller of the number set by user or the size of courses ready in the queue
             int termSize = Math.min(numCourses, queue.size());
 
             for (int i = 0; i < termSize; i++) {
-                // set the current vertex to the first in the queue and add it to the result list.
+                // Set the current vertex to the first in the queue and add it to the result list.
                 String current = queue.remove();
                 currentTerm.add(current);
 
-                // add to the courseCounter
+                // Add to the courseCounter
                 courseCounter++;
 
-                // visit all courses that depend on the current course.
+                // Visit all courses that depend on the current course.
                 for  (Edge edge : edges.get(current)) {
                     String to = edge.getTo();
 
-                    // reduce the indegree of the dependent course by 1, as we have now processed one of its prerequisites.
+                    // Reduce the indegree of the dependent course by 1, as we have now processed one of its prerequisites.
                     indegree.put(to, indegree.get(to) - 1);
 
-                    // if the indegree is now 0, that dependent course can be added to the queue.
+                    // If the indegree is now 0, that dependent course can be added to the queue.
                     if (indegree.get(to) == 0) {
                         queue.add(to);
                     }
@@ -143,16 +160,24 @@ public class Graph {
             result.add(currentTerm);
         }
 
-        // ensure all verticies have been processed, for a topological sort, there must not
+        // Ensure all verticies have been processed, for a topological sort, there must not
         // be any cycles. The graph must be a Directed Acyclic Graph (DAG).
-        // check if the size of the result list is the same size as the vertices.
+        // Check if the size of the result list is the same size as the vertices.
         if (courseCounter != vertices.size()) {
             throw new RuntimeException("Graph has a cycle, topological sort not possible.");
         }
 
-    // return the result of the sort.
+    // Return the result of the sort.
     return result;
     }
+
+    // Geeks for geeks, October 2025, Topological sorting using BRS - Kahn's Algorithm,
+    // https://www.geeksforgeeks.org/dsa/topological-sorting-indegree-based-solution/
+
+    // Koffman, EB 2016, Data structures : abstraction and design using Java /
+    // Elliot B Koffman; Paul A. T. Wolfgang., Third edition., John Wiley & Sons, Incorporated
+
+
 
     // Override toString
     public String toString() {

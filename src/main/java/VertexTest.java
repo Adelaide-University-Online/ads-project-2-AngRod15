@@ -1,6 +1,16 @@
+/**
+ * File: VertexTest.java
+ * Description: A unit test for the Vertex class.
+ * Author: Angie Rodley
+ * Student ID: a3145754
+ * Email ID: angie.rodley@student.adelaide.edu.au
+ * AI Tool Used: Co-pilot in-line suggestions was turned on and Chat-GPT to help with Syntax of Kahn's Algorithm
+ * This is my own work as defined by
+ *    the University's Academic Integrity Policy.
+ **/
+
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 

@@ -11,12 +11,20 @@ import java.util.Objects;
  *    the University's Academic Integrity Policy.
  **/
 
-
+/**
+ * This class represents an Edge in a graph.
+ * An Edge is a connection between two courses, representing a course and its prerequisite.
+ **/
 public class Edge {
     private String from;
     private String to;
     private int weight;
 
+    /**
+     * Constructor for creating an edge
+     * @param from The course that is the prerequisite.
+     * @param to The course that depends on the prerequisite.
+     * **/
     public Edge(String from, String to) {
         this.from = from;
         this.to = to;
@@ -60,9 +68,11 @@ public class Edge {
     }
 
     // Override the hashCode
+    // At this stage all weights are set to a default of 1, however the weight has been included in the
+    // HashCode calculation should the graph need to be weighted.
     @Override
     public int hashCode() {
-        return Objects.hash(from, to);
+        return Objects.hash(from, to, weight);
     }
 }
 
