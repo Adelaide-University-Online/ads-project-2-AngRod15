@@ -49,7 +49,10 @@ public class Edge {
     // Override the toString method to provide a string representation ot the edge
     @Override
     public String toString() {
-        return "Edge(" + from + " -> " + to + ", weight = " + weight + ')';
+        return "Edge(" +
+                from + " -> " +
+                to + ", weight = " +
+                weight + ')';
     }
 
     // override the equals
@@ -58,12 +61,12 @@ public class Edge {
         if (this == obj) {
             return true;
         }
+
         if (obj == null || getClass() != obj.getClass()) {
             return false;
         }
 
         Edge edge = (Edge) obj;
-
         return Objects.equals(from, edge.from) && Objects.equals(to, edge.to);
     }
 

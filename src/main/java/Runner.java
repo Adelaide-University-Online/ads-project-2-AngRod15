@@ -62,34 +62,29 @@ public class Runner {
                     graph.addEdge(prerequisite, course);
                 }
             }
-
             scanner.close();
 
+        // Print exception if file not found.
         } catch (FileNotFoundException e) {
             System.out.println("File not found.");
         }
 
-        // Check that the vertices have been created in the graph
-        //System.out.println(graph.getVertices().toString());
-
-        // Check that the edges have been created
-        //System.out.println(graph.getEdges().toString());
-
+        // Prompt the user for number of courses
         System.out.println("How many courses do you want to study concurrently? ");
         int numCourses = input.nextInt();
 
         // Perform the topological sort to find the best path for visiting all the vertices.
         List<List<String>> sortedGraph = graph.topoSort(numCourses);
 
-
         // Print out the schedule by term
         System.out.println("Your course schedule is:");
         System.out.println("-----------------------------");
 
-        // Counter to keep track of terms
+        // Counter to keep track of terms starting with term 1
         int term = 1;
 
         // Loop through the sort and print out the courses for each term.
+        // This is a nested for loop the big O notation is O(terms + Courses) = O(n)
         for (List<String> t : sortedGraph) {
             System.out.println("\nTerm " + term + ":");
 
