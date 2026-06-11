@@ -30,7 +30,6 @@ public class Graph {
         this.vertices = new HashMap<>();
         this.edges = new HashMap<>();
     }
-
     /**
      * Adds a vertex to the graph.
      * @param courseCode The code of the course to be added.
@@ -39,6 +38,7 @@ public class Graph {
         this.vertices.put(courseCode, new Vertex(courseCode));
         this.edges.put(courseCode, new ArrayList<>());
     }
+
     /**
      * Adds an edge to the graph.
      * @param from The course that is the prerequisite.
@@ -46,7 +46,6 @@ public class Graph {
      * **/
     public void addEdge(String from, String to) {
         this.edges.get(from).add(new Edge(from, to));
-
     }
 
     // Getter for vertices
@@ -59,11 +58,19 @@ public class Graph {
         return this.edges;
     }
 
-    // Create a topological search (as per the textbook) to find the best path for visiting all the vertices.
-    // topological search will be a depth first search that will visit all the vertices
-    // and keep track of the best path.
+    /**
+     * Gets the priority of a course based on its out-degree.
+     * @param course The course for which to get the priority.
+     * @return The priority of the course.
+     */
+    private int getPriority(String course) {
+        return this.edges.get(course).size();
+    }
 
-    // Research Kahn's algorithm - recursive.
+    // Create a topological search (as per the textbook Case Study p.521) to find the
+    // best path for visiting all the vertices.
+    // topological search will be a depth first search that will visit all the vertices
+    // and keep track of the path.
 
     // Method for the topological sort.
     /**
@@ -86,7 +93,6 @@ public class Graph {
 
         // Calculate the in-degree (incoming edges) for each vertex by iterating through the edges.
         // The in-degree represents how many prerequisites a course has.
-
         // For each course
         for (String course : edges.keySet()) {
             // Get the adjacency list that contains edges
@@ -104,10 +110,14 @@ public class Graph {
         // Use a queue to store the courses with no prerequisites
         // this will get filled as the traversal progresses
         // A linkedList is used here as it provides queue like behaviour (FIFO)
-        Queue<String> queue = new LinkedList<>();
+        //Queue<String> queue = new LinkedList<>();
+
+        // REPLACED LINKED LIST WITH PRIORITY QUEUE
+        // a goes before b in the comparator as higher numbers = more dependent courses = more important
+        PriorityQueue<String> queue = new PriorityQueue<>(
+                (a,b) -> Integer.compare(getPriority(b), getPriority(a)));
 
         // Add courses with no prerequisites to the queue (in-degree of 0)
-
         // for each course in the indegree list, if value is 0, add to the queue.
         for (String course : indegree.keySet()) {
             if (indegree.get(course) == 0) {
@@ -120,8 +130,6 @@ public class Graph {
 
         // Counter to keep track of how many courses have been processed
         int courseCounter = 0;
-
-
 
         // Kahn's Algorithm Topological Sort.
         // While the queue is not empty
