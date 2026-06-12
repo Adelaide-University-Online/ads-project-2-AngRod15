@@ -25,6 +25,7 @@ public class Graph {
 
     /**
      * Instantiate a new graph with empty HashMaps for vertices and edges.
+     * HashMaps are efficient as they are O(1) for put, get and containsKey operations.
      * **/
     public Graph() {
         this.vertices = new HashMap<>();
@@ -36,7 +37,7 @@ public class Graph {
      * **/
     public void addVertex(String courseCode) {
         this.vertices.put(courseCode, new Vertex(courseCode));
-        this.edges.put(courseCode, new ArrayList<>());
+        this.edges.put(courseCode, new ArrayList<>()); // Create an empty adjacency list
     }
 
     /**

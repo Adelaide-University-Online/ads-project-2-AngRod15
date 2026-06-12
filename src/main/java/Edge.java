@@ -31,17 +31,17 @@ public class Edge {
         this.weight = 1;
     }
 
-    // getter for From
+    // getter for From - this is the prerequisite course
     public String getFrom() {
         return from;
     }
 
-    // getter for To
+    // getter for To - this is the course dependent on the prerequisite
     public String getTo() {
         return to;
     }
 
-    // getter for weight - in this case all are equal weights.
+    // getter for weight - in this case all are equal weights. - Unweighted graph
     public int getWeight() {
         return weight;
     }
@@ -67,7 +67,7 @@ public class Edge {
         }
 
         Edge edge = (Edge) obj;
-        return Objects.equals(from, edge.from) && Objects.equals(to, edge.to);
+        return Objects.equals(from, edge.from) && Objects.equals(to, edge.to) && weight == edge.weight;
     }
 
     // Override the hashCode
